@@ -231,11 +231,22 @@ def dummy(term,size): #Non-working "hash function" that always collides for test
 
 def firstLetter(term,size):
     if ord(term[0].lower()) in range(97,123): #Is the first letter a basic English letter?
-        return ord(term[0].lower()) - 97 #Return its position in the alphabet
+        return (ord(term[0].lower()) - 97) % size #Return its position in the alphabet
     else: #If it's an edge case (number, symbol, Unicode character)...
-        return 27 #...put those all in one dedicated bucket.
-            
+        return 26 % size #...put those all in one dedicated bucket.
 
+
+
+def sumFirstEight(term,size):
+    k = 0 #Temporary value
+    for i in range(max(len(term),8)): #Iterate over the first 8 letters, if there are that many
+        k += ord(term[i].lower()) - 97 #Add the position of the character in the alphabet
+    if k in range(0,201): #Max possible sum of the positions of eight letters
+        return k % size
+    else:
+        return 201 % size #Single edge case bucket
+    
+            
 
 def main():
     movieList = []
@@ -267,17 +278,16 @@ def main():
 
     #Now begin hashing and searching
     print("")
-    hashedList1 = hashTable("linearProbing","build","title",firstLetter,15000,movieList,None)
-    searchResult = hashTable("linearProbing","search","title",firstLetter,15000,hashedList1,toSearch.movie_title)
+    hashedList1 = hashTable("linearProbing","build","quote",sumFirstEight,15000,movieList,None)
+    searchResult = hashTable("linearProbing","search","quote",sumFirstEight,15000,hashedList1,toSearch.quote)
     print("")
     print("You searched for: " + str(searchResult))
     print("")
-    hashedList2 = hashTable("linkedList","build","title",firstLetter,28,movieList,None)
-    searchResult2 = hashTable("linkedList","search","title",firstLetter,28,hashedList2,toSearch.movie_title)
+    hashedList2 = hashTable("linkedList","build","quote",sumFirstEight,202,movieList,None)
+    searchResult2 = hashTable("linkedList","search","quote",sumFirstEight,202,hashedList2,toSearch.quote)
     print("")
     print("You searched for: " + str(searchResult2))
     print("")
-    
         
         
 
