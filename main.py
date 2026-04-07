@@ -19,6 +19,7 @@ class Node: #For linked lists
         return str(self.key) + ", " + self.data.movie_title
 
 
+
 class Movie:
     #Constructor
     def __init__(self,movie_title,genre,release_date,director,box_office_revenue,rating,duration_minutes,production_company,quote):
@@ -223,13 +224,17 @@ def hashBrown():
 
         
 
-def dummy(data,size): #Non-working "hash function" that always collides for testing the other code; not one of the five.
+def dummy(term,size): #Non-working "hash function" that always collides for testing the other code; not one of the five.
     return 0
                 
 
 
-#ord(movieList[rand1].movie_title[0].lower())            
-
+def firstLetter(term,size):
+    if ord(term[0].lower()) in range(97,123): #Is the first letter a basic English letter?
+        return ord(term[0].lower()) - 97 #Return its position in the alphabet
+    else: #If it's an edge case (number, symbol, Unicode character)...
+        return 27 #...put those all in one dedicated bucket.
+            
 
 
 def main():
@@ -261,12 +266,18 @@ def main():
     basicSearch("quote",toSearch.quote,movieList)
 
     #Now begin hashing and searching
-    #hashedList1 = hashTable("linearProbing","build","title",dummy,15000,movieList,None)
-    #searchResult = hashTable("linearProbing","search","title",dummy,15000,hashedList1,toSearch.movie_title)
-    #print(searchResult)
-    #hashedList2 = hashTable("linkedList","build","title",dummy,15000,movieList,None)
-    #searchResult2 = hashTable("linkedList","search","title",dummy,15000,hashedList2,toSearch.movie_title)
-    #print(searchResult2)
+    print("")
+    hashedList1 = hashTable("linearProbing","build","title",firstLetter,15000,movieList,None)
+    searchResult = hashTable("linearProbing","search","title",firstLetter,15000,hashedList1,toSearch.movie_title)
+    print("")
+    print("You searched for: " + str(searchResult))
+    print("")
+    hashedList2 = hashTable("linkedList","build","title",firstLetter,28,movieList,None)
+    searchResult2 = hashTable("linkedList","search","title",firstLetter,28,hashedList2,toSearch.movie_title)
+    print("")
+    print("You searched for: " + str(searchResult2))
+    print("")
+    
         
         
 
