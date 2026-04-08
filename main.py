@@ -99,6 +99,8 @@ def hashTable(mode,oper,var,func,size,curList,term):
                 start = time.time()
                 for i in range(len(curList) - 1):
                     j = func(curList[i].movie_title,size)
+                    #Sentinel:
+                    #print(j)
                     while hashedList[j] != None:
                         cols += 1
                         j += 1
@@ -152,7 +154,7 @@ def hashTable(mode,oper,var,func,size,curList,term):
                 start = time.time()
                 for i in range(len(curList) - 1):
                     j = func(curList[i].movie_title,size)
-                    #Sentinel
+                    #Sentinel:
                     #print(j)
                     newNode = Node(j,curList[i])
                     curNode = hashedList[j]
@@ -258,6 +260,14 @@ def sumAll(term,size):
 
 
 
+def multi(term,size):
+    k = ord(term[0])
+    for i in range(1,len(term)):
+        k *= ord(term[i])
+    return k % size
+
+
+
 #Adapted from C at https://web.archive.org/web/20080212042949/https://eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
 #Modified with multiplication
 def xor(term,size):
@@ -265,11 +275,19 @@ def xor(term,size):
     for i in range(len(term)):
         k ^= ord(term[i])
     return (k * int(size / 100)) % size
-    
+
+
+
+#Adapted from C at https://web.archive.org/web/20080212042949/https://eternallyconfuzzled.com/tuts/algorithms/jsw_tut_hashing.aspx
+def bernstein(term,size):
+    k = 0
+    for i in range(len(term)):
+        k = (33 * k) + ord(term[i])
+    return k % size
     
 
-            
 
+    
 def main():
     movieList = []
     #File handling and building unhashed movie list
@@ -300,13 +318,13 @@ def main():
 
     #Now begin hashing and searching
     print("")
-    hashedList1 = hashTable("linearProbing","build","title",xor,30000,movieList,None)
-    searchResult = hashTable("linearProbing","search","title",xor,30000,hashedList1,toSearch.movie_title)
+    hashedList1 = hashTable("linearProbing","build","title",bernstein,30103,movieList,None)
+    searchResult = hashTable("linearProbing","search","title",bernstein,30103,hashedList1,toSearch.movie_title)
     print("")
     print("You searched for: " + str(searchResult))
     print("")
-    hashedList2 = hashTable("linkedList","build","title",xor,1000,movieList,None)
-    searchResult2 = hashTable("linkedList","search","title",xor,1000,hashedList2,toSearch.movie_title)
+    hashedList2 = hashTable("linkedList","build","title",bernstein,1009,movieList,None)
+    searchResult2 = hashTable("linkedList","search","title",bernstein,1009,hashedList2,toSearch.movie_title)
     print("")
     print("You searched for: " + str(searchResult2))
     print("")
