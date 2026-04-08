@@ -1,0 +1,390 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1033{\fonttbl{\f0\fnil\fcharset0 Arial;}{\f1\fnil\fcharset0 Courier New;}}
+{\colortbl ;\red0\green77\blue187;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sa200\sl276\slmult1\fs22\lang9 In researching the concept of hashing for the purpose of the assignment, one important thing I learned is the limitations of linear probing relative to chaining (using a linked list). A linear probing hash table must be at least as large as the data being hashed, but preferably meaningfully larger, firstly due to the fact that collisions will cause the function to overrun the top of the table and go out of range without a means to loop back around. Secondly, the efficiency of such a hash table decreases as the "load factor" (percentage of taken slots) approaches 100%; in many cases, when a collision occurs, the item being hashed will get shunted far enough that it encroaches into the hash space that should belong to a different key, requiring iteration through many items unrelated by hash to get there when searching. \par
+The first function I used was a very simple one that hashed items according to the position of their first letter in the alphabet, and put edge cases (Unicode characters, numbers, symbols) into one bucket, requiring 27 buckets in the linked list. This wasn't designed with linear probing in mind at all since all but the first 27 insertions would be collisions, and the results reflect that. In theory, this should cut the search time in 1/27th in a worst case scenario in the linked list method.\par
+The second function, also very bad for linear probing, summed the positions of the first eight letters, or all letters if there weren't eight. Since "zzzzzzzz" would be hashed as 200, anything above 200 or below 0 was treated as an edge case and put into a dedicated bucket, 201. The advantage of the first two is that we know how large the linked list list needs to be, so there is no wasted space. I noticed more 201s than I expected with the sentinel print activated, which is probably due to space characters taking the number below zero.\par
+The last function summed the full ASCII values (not minus 97) of all characters, and relied on the modulo to shrink the key below the size of the hash table.\cf1\f1\par
+Searching the unhashed list for film(s) named Corsican File, The (L'enqu\'eate corse)...\par
+Corsican File, The (L'enqu\'eate corse) found at index 787 in time 8.893013000488281e-05\par
+Corsican File, The (L'enqu\'eate corse) found at index 1153 in time 0.004965782165527344\par
+Searching the unhashed list for the film with the quote "Synergistic analyzing groupware"...\par
+Film Corsican File, The (L'enqu\'eate corse) with your quote found at index 1153 in time 5.6743621826171875e-05\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function firstLetter at 0x000001BBCC30ACA0>\par
+Mode:                  Linear Probing\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   15000\par
+----------------------------------------\par
+Time taken (seconds):  6.338807821273804\par
+Collisions:            112319615\par
+Unused spaces:         0\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function firstLetter at 0x000001BBCC30ACA0>\par
+Mode:                  Linear Probing\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   15000\par
+----------------------------------------\par
+Time taken (seconds):  9.703636169433594e-05\par
+Collisions:            785\par
+Unused spaces:         0\par
+\par
+You searched for: Corsican File, The (L'enqu\'eate corse), Romance, 5/25/1912, Tomasina Mantz, $29614991.92, 6.4, 189, Skinder, Multi-tiered discrete hub\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function firstLetter at 0x000001BBCC30ACA0>\par
+Mode:                  Linked List\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   27\par
+----------------------------------------\par
+Time taken (seconds):  0.33350086212158203\par
+Collisions:            6182776\par
+Unused spaces:         0\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function firstLetter at 0x000001BBCC30ACA0>\par
+Mode:                  Linked List\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   27\par
+----------------------------------------\par
+Time taken (seconds):  2.9087066650390625e-05\par
+Collisions:            65\par
+Unused spaces:         0\par
+\par
+You searched for: Corsican File, The (L'enqu\'eate corse), Romance, 5/25/1912, Tomasina Mantz, $29614991.92, 6.4, 189, Skinder, Multi-tiered discrete hub\par
+\par
+\par
+\par
+Searching the unhashed list for film(s) named Tyler Perry's The Single Moms Club...\par
+Tyler Perry's The Single Moms Club found at index 571 in time 5.793571472167969e-05\par
+Tyler Perry's The Single Moms Club found at index 7624 in time 0.0032198429107666016\par
+Tyler Perry's The Single Moms Club found at index 8480 in time 0.006062030792236328\par
+Searching the unhashed list for the film with the quote "Front-line local parallelism"...\par
+Film Tyler Perry's The Single Moms Club with your quote found at index 8480 in time 0.00029587745666503906\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function sumFirstEight at 0x000002274236AD40>\par
+Mode:                  Linear Probing\par
+Operation:             Create table\par
+Variable hashed:       Iconic quote\par
+Size of hashed list:   15000\par
+----------------------------------------\par
+Time taken (seconds):  6.260526657104492\par
+Collisions:            110494369\par
+Unused spaces:         0\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function sumFirstEight at 0x000002274236AD40>\par
+Mode:                  Linear Probing\par
+Operation:             Search table\par
+Variable hashed:       Iconic quote\par
+Size of hashed list:   15000\par
+----------------------------------------\par
+Time taken (seconds):  0.0005741119384765625\par
+Collisions:            8413\par
+Unused spaces:         0\par
+\par
+You searched for: Tyler Perry's The Single Moms Club, Romance, 4/23/1975, Myles Sappell, $95264511.39, 9.3, 213, Dynava, Front-line local parallelism\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function sumFirstEight at 0x000002274236AD40>\par
+Mode:                  Linked List\par
+Operation:             Create table\par
+Variable hashed:       Iconic quote\par
+Size of hashed list:   202\par
+----------------------------------------\par
+Time taken (seconds):  0.207489013671875\par
+Collisions:            3260079\par
+Unused spaces:         0\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function sumFirstEight at 0x000002274236AD40>\par
+Mode:                  Linked List\par
+Operation:             Search table\par
+Variable hashed:       Iconic quote\par
+Size of hashed list:   202\par
+----------------------------------------\par
+Time taken (seconds):  2.4557113647460938e-05\par
+Collisions:            32\par
+Unused spaces:         0\par
+\par
+You searched for: Tyler Perry's The Single Moms Club, Romance, 4/23/1975, Myles Sappell, $95264511.39, 9.3, 213, Dynava, Front-line local parallelism\par
+\par
+\par
+Searching the unhashed list for film(s) named Walk All Over Me...\par
+Walk All Over Me found at index 3068 in time 0.00030732154846191406\par
+Searching the unhashed list for the film with the quote "Implemented interactive benchmark"...\par
+Film Walk All Over Me with your quote found at index 3068 in time 0.0001239776611328125\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function sumAll at 0x000001BC7117AD40>\par
+Mode:                  Linear Probing\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   16000\par
+----------------------------------------\par
+Time taken (seconds):  5.0568459033966064\par
+Collisions:            87832602\par
+Unused spaces:         1000\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function sumAll at 0x000001BC7117AD40>\par
+Mode:                  Linear Probing\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   16000\par
+----------------------------------------\par
+Time taken (seconds):  0.0003314018249511719\par
+Collisions:            1668\par
+Unused spaces:         1000\par
+\par
+You searched for: Walk All Over Me, Horror, 12/25/1981, Idette Dreye, $24381815.41, 5.6, 96, Shufflester, Implemented interactive benchmark\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function sumAll at 0x000001BC7117AD40>\par
+Mode:                  Linked List\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   1000\par
+----------------------------------------\par
+Time taken (seconds):  0.025916099548339844\par
+Collisions:            121839\par
+Unused spaces:         0\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function sumAll at 0x000001BC7117AD40>\par
+Mode:                  Linked List\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   1000\par
+----------------------------------------\par
+Time taken (seconds):  1.6689300537109375e-05\par
+Collisions:            1\par
+Unused spaces:         0\par
+\par
+You searched for: Walk All Over Me, Horror, 12/25/1981, Idette Dreye, $24381815.41, 5.6, 96, Shufflester, Implemented interactive benchmark\par
+\par
+\par
+\cf0\f0 I then tried a new hashing method that I had come across in my research, XOR hash, which was supposedly more random than additive hash. I found that it tended to create low numbers only (around 300 at most), so I modified it by multiplying the result by one one-hundredth of the hash table size before moduloing it. The resulting widely spaced results (by increments of 10), combined with the table size of double the data size in this experiment, are a good thing for linear probing, as the drastically lower construction time shows, but result in undesirable wasted space and clustering when using linked lists.\cf1\f1\par
+Searching the unhashed list for film(s) named Marva Collins Story, The...\par
+Marva Collins Story, The found at index 626 in time 7.319450378417969e-05\par
+Marva Collins Story, The found at index 8661 in time 0.002716541290283203\par
+Marva Collins Story, The found at index 9934 in time 0.004923343658447266\par
+Searching the unhashed list for the film with the quote "User-centric tangible methodology"...\par
+Film Marva Collins Story, The with your quote found at index 626 in time 3.62396240234375e-05\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function xor at 0x00000280BFABAE80>\par
+Mode:                  Linear Probing\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   30000\par
+----------------------------------------\par
+Time taken (seconds):  0.08567595481872559\par
+Collisions:            1160735\par
+Unused spaces:         15000\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function xor at 0x00000280BFABAE80>\par
+Mode:                  Linear Probing\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   30000\par
+----------------------------------------\par
+Time taken (seconds):  1.9073486328125e-05\par
+Collisions:            6\par
+Unused spaces:         15000\par
+\par
+You searched for: Marva Collins Story, The, Comedy, 12/8/1975, Madelene Lightman, $75792096.76, 0.8, 180, Gabtune, User-centric tangible methodology\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function xor at 0x00000280BFABAE80>\par
+Mode:                  Linked List\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   1000\par
+----------------------------------------\par
+Time taken (seconds):  0.08154106140136719\par
+Collisions:            1160735\par
+Unused spaces:         899\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function xor at 0x00000280BFABAE80>\par
+Mode:                  Linked List\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   1000\par
+----------------------------------------\par
+Time taken (seconds):  1.2159347534179688e-05\par
+Collisions:            6\par
+Unused spaces:         899\par
+\par
+You searched for: Marva Collins Story, The, Comedy, 12/8/1975, Madelene Lightman, $75792096.76, 0.8, 180, Gabtune, User-centric tangible methodology\par
+\par
+\cf0\f0 I took a step back with my own simple multiplicative hash, which multiplies the ASCII values of all characters. Although this had been discussed in help lab I didn't implement it at first, because I thought the math involved might take a meaningfully longer time, an assumption that seems to be incorrect based on the results. Crucially, I also realised at this point that all hash methods potentially returning keys greater than the table size are more effective when the table is a prime number in size, so I did that.\cf1\f1\par
+Searching the unhashed list for film(s) named Confessions from a Holiday Camp...\par
+Confessions from a Holiday Camp found at index 337 in time 3.8623809814453125e-05\par
+Confessions from a Holiday Camp found at index 9203 in time 0.0035848617553710938\par
+Searching the unhashed list for the film with the quote "Multi-tiered bottom-line intranet"...\par
+Film Confessions from a Holiday Camp with your quote found at index 9203 in time 0.00032448768615722656\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function multi at 0x000002393DC4AE80>\par
+Mode:                  Linear Probing\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   29989\par
+----------------------------------------\par
+Time taken (seconds):  0.02040266990661621\par
+Collisions:            17173\par
+Unused spaces:         14989\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function multi at 0x000002393DC4AE80>\par
+Mode:                  Linear Probing\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   29989\par
+----------------------------------------\par
+Time taken (seconds):  7.152557373046875e-06\par
+Collisions:            0\par
+Unused spaces:         14989\par
+\par
+You searched for: Confessions from a Holiday Camp, Action, 5/24/2020, Janis Janata, $57093131.46, 2.7, 116, Mynte, Cloned scalable strategy\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function multi at 0x000002393DC4AE80>\par
+Mode:                  Linked List\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   1009\par
+----------------------------------------\par
+Time taken (seconds):  0.029939651489257812\par
+Collisions:            116535\par
+Unused spaces:         1\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function multi at 0x000002393DC4AE80>\par
+Mode:                  Linked List\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   1009\par
+----------------------------------------\par
+Time taken (seconds):  8.344650268554688e-06\par
+Collisions:            0\par
+Unused spaces:         1\par
+\par
+You searched for: Confessions from a Holiday Camp, Action, 5/24/2020, Janis Janata, $57093131.46, 2.7, 116, Mynte, Cloned scalable strategy\par
+\par
+\cf0\f0 The final method was another one I researched, Bernstein's hash. It is notable for apparently being efficient in spite of nobody understanding why. In practice, it didn't seem much different from the method above, with a slightly worse construction time with linear probing.\cf1\f1\par
+\par
+Searching the unhashed list for film(s) named Breaking and Entering...\par
+Breaking and Entering found at index 14174 in time 0.0016884803771972656\par
+Searching the unhashed list for the film with the quote "Extended transitional function"...\par
+Film Breaking and Entering with your quote found at index 14174 in time 0.0005550384521484375\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function bernstein at 0x000002722470AFC0>\par
+Mode:                  Linear Probing\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   30103\par
+----------------------------------------\par
+Time taken (seconds):  0.02546405792236328\par
+Collisions:            17172\par
+Unused spaces:         15103\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function bernstein at 0x000002722470AFC0>\par
+Mode:                  Linear Probing\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   30103\par
+----------------------------------------\par
+Time taken (seconds):  1.0728836059570312e-05\par
+Collisions:            2\par
+Unused spaces:         15103\par
+\par
+You searched for: Breaking and Entering, Action, 6/18/1951, Dinny Lear, $35245619.04, 3.1, 204, Vipe, Extended transitional function\par
+\par
+Building hash table...\par
+Hash table built.\par
+\par
+############### REPORT #################\par
+Hash function:         <function bernstein at 0x000002722470AFC0>\par
+Mode:                  Linked List\par
+Operation:             Create table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   1009\par
+----------------------------------------\par
+Time taken (seconds):  0.03754711151123047\par
+Collisions:            115862\par
+Unused spaces:         0\par
+Searching hash table...\par
+\par
+############### REPORT #################\par
+Hash function:         <function bernstein at 0x000002722470AFC0>\par
+Mode:                  Linked List\par
+Operation:             Search table\par
+Variable hashed:       Movie title\par
+Size of hashed list:   1009\par
+----------------------------------------\par
+Time taken (seconds):  1.7881393432617188e-05\par
+Collisions:            10\par
+Unused spaces:         0\par
+\par
+You searched for: Breaking and Entering, Action, 6/18/1951, Dinny Lear, $35245619.04, 3.1, 204, Vipe, Extended transitional function\par
+\par
+\par
+}
+ 
